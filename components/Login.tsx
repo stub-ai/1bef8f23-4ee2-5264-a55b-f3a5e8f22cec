@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const router = useRouter();
 
   const handleLogin = async () => {
     try {
@@ -34,6 +36,7 @@ const Login = () => {
       // This will depend on your specific use case
       if (agreed) {
         // Send SAML response to the browser
+        router.push('/saml-response', { query: { samlResponse } });
       }
     } catch (error) {
       console.error('Error during login:', error);
