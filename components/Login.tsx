@@ -6,6 +6,7 @@ const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [agreed, setAgreed] = useState(false);
+  const [token, setToken] = useState('');
   const router = useRouter();
 
   const handleLogin = async (e: FormEvent) => {
@@ -25,6 +26,7 @@ const Login = () => {
 
       const tokenResponse = await axios.post('https://chfs.verify.ibm.com/v1.0/endpoint/default/token', tokenRequest);
       const accessToken = tokenResponse.data.access_token;
+      setToken(accessToken); // Set the token state
 
       const authRequest = {
         username,
@@ -52,12 +54,15 @@ const Login = () => {
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
-      <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
-      <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} /> I agree to the terms and conditions
-      <button type="submit">Login</button>
-    </form>
+    <div>
+      <form onSubmit={handleLogin}>
+        <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username" required />
+        <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Password" required />
+        <input type="checkbox" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} /> I agree to the terms and conditions
+        <button type="submit">Login</button>
+      </form>
+      {token && <p>Your Bearer Token: {token}</p>} {/* Display the token */}
+    </div>
   );
 };
 
