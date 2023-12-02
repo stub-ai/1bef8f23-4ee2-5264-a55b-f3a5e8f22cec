@@ -1,0 +1,1 @@
+{"config":{"system_prompt":"","model":"","temperature":0,"top_p":1,"framework":"nextjs-page-tailwind"},"prompts":[{"prompt":"I need a build for web application that takes SAML request for login and calls an external IDP through Rest API, authenticates user and generates SAML response to the client","md5":"13b828be1515f154a48b7858620ef84c"}]}
