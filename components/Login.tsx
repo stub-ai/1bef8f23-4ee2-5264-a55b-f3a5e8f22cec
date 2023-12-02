@@ -7,13 +7,27 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const samlRequest = {
+      const tokenRequest = {
+        client_id: '6fab4d0a-6102-4e8f-b2b5-c2016bcefe9a',
+        client_secret: '4cGyfQAaVI',
+        grant_type: 'client_credentials',
+      };
+
+      const tokenResponse = await axios.post('https://chfs.verify.ibm.com/v1.0/endpoint/default/token', tokenRequest);
+      const accessToken = tokenResponse.data.access_token;
+
+      const authRequest = {
         username,
         password,
       };
 
-      const response = await axios.post('https://your-idp-url.com/api/login', samlRequest);
-      const samlResponse = response.data;
+      const authResponse = await axios.post('https://chfs.verify.ibm.com/v2.0/Users/authentication?returnUserRecord=true', authRequest, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+
+      const samlResponse = authResponse.data;
 
       // Handle SAML response
       // This will depend on your specific use case
